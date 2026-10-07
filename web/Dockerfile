@@ -7,11 +7,16 @@
 # QEMU — and QEMU-emulated npm installs are known to corrupt esbuild/rollup's platform-
 # specific native binaries, which is what breaks `vite build` with unrelated-looking
 # module-resolution errors.
+# Declared so the classic (non-BuildKit) builder can be handed it as a build arg.
+ARG BUILDPLATFORM
 FROM --platform=$BUILDPLATFORM node:22-alpine AS build
 WORKDIR /app
 COPY frontend/package.json frontend/package-lock.json* ./
 RUN npm ci 2>/dev/null || npm install
 COPY frontend/ ./
+# Language a fresh profile starts in (e.g. he); empty = English.
+ARG VITE_DEFAULT_LANG=
+ENV VITE_DEFAULT_LANG=$VITE_DEFAULT_LANG
 RUN npm run build
 
 FROM nginx:alpine

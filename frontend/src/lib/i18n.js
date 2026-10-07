@@ -11,7 +11,7 @@ export const LANGS = {
   pt: 'Português', pl: 'Polski', tr: 'Türkçe', ru: 'Русский', zh: '中文',
   ko: '한국어', hi: 'हिन्दी', he: 'עברית'
 }
-export const INSTR_LANGS = ['en', 'es', 'fr', 'it', 'tr', 'ru', 'zh', 'hi', 'pl', 'ko', 'he']
+export const INSTR_LANGS = ['en', 'es', 'fr', 'it', 'tr', 'ru', 'zh', 'hi', 'pl', 'ko']
 // Right-to-left UI languages: <html dir> flips and logical CSS properties follow.
 export const RTL_LANGS = ['he']
 // Language a fresh profile starts in. Set at build time (VITE_DEFAULT_LANG) so an
@@ -54,11 +54,14 @@ export async function setLang(l) {
   if (!LANGS[l]) l = DEFAULT_LANG
   if (l === lang && version > 0) return
   lang = l
-  try {
-    dict = l === 'en' ? {} : (await localePacks['../locales/' + l + '.js']()).default
-    instr = l === 'en' || !INSTR_LANGS.includes(l) ? null : (await instrPacks['../instr/' + l + '.js']()).default
-    names = namePacks['../names/' + l + '.js'] ? (await namePacks['../names/' + l + '.js']()).default : null
-  } catch (e) { dict = {}; instr = null; names = null }
+  // Each pack loads on its own: a missing content pack must not take the UI strings with it.
+  const load = async (packs, dir) => {
+    const f = l !== 'en' && packs['../' + dir + '/' + l + '.js']
+    try { return f ? (await f()).default : null } catch (e) { return null }
+  }
+  dict = (await load(localePacks, 'locales')) || {}
+  instr = INSTR_LANGS.includes(l) ? await load(instrPacks, 'instr') : null
+  names = await load(namePacks, 'names')
   document.documentElement.lang = l
   document.documentElement.dir = isRTL() ? 'rtl' : 'ltr'
   notify()
