@@ -71,7 +71,7 @@ export default function AdminCoach() {
     {!d.enabled && <div className="muted small">Off. Users see no Coach anywhere in the app.</div>}
 
     {d.enabled && <>
-      <div className="tiles" style={{ textAlign: 'left', marginBottom: 10 }}>
+      <div className="tiles" style={{ textAlign: 'start', marginBottom: 10 }}>
         <div className="tile"><div className="l">Runtime</div>
           <div className="v" style={{ fontSize: '.9rem', color: d.runtime.ok ? 'var(--green)' : 'var(--red)' }}>{d.runtime.ok ? 'ready' : 'missing'}</div></div>
         <div className="tile"><div className="l">Credential</div>
@@ -124,10 +124,10 @@ export default function AdminCoach() {
       <h4 className="sec">Limits</h4>
       <div className="row" style={{ gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
         <label className="small muted">Per user / day
-          <input className="num" type="number" min="0" max="200" defaultValue={d.caps.perProfileDaily} style={{ width: 70, marginLeft: 8 }}
+          <input className="num" type="number" min="0" max="200" defaultValue={d.caps.perProfileDaily} style={{ width: 70, marginInlineStart: 8 }}
             onBlur={e => patch({ caps: { ...d.caps, perProfileDaily: +e.target.value } })} /></label>
         <label className="small muted">Whole instance / day
-          <input className="num" type="number" min="0" max="5000" defaultValue={d.caps.instanceDaily} style={{ width: 70, marginLeft: 8 }}
+          <input className="num" type="number" min="0" max="5000" defaultValue={d.caps.instanceDaily} style={{ width: 70, marginInlineStart: 8 }}
             onBlur={e => patch({ caps: { ...d.caps, instanceDaily: +e.target.value } })} /></label>
       </div>
       <div className="dim small" style={{ marginBottom: 10 }}>0 = no limit. Every job is one session on your provider account.</div>

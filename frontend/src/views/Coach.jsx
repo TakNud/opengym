@@ -89,7 +89,7 @@ export default function Coach() {
   return <div className="narrow">
     <div className="hdr">
       <button className="iconbtn" onClick={() => nav('/plan')} aria-label={t('Back')}><Icon name="chevronLeft" /></button>
-      <div style={{ flex: 1, marginLeft: 10 }}>
+      <div style={{ flex: 1, marginInlineStart: 10 }}>
         <h1>{t('Coach')}</h1>
         <div className="sub">{t('Plan design and reviews, from your own training')}</div>
       </div>

@@ -217,7 +217,7 @@ function ChangeSet({ p, S, update, toast, nav }) {
 function Header({ title, sub, nav }) {
   return <div className="hdr">
     <button className="iconbtn" onClick={() => nav('/coach')} aria-label={t('Back')}><Icon name="chevronLeft" /></button>
-    <div style={{ flex: 1, marginLeft: 10 }}>
+    <div style={{ flex: 1, marginInlineStart: 10 }}>
       <h1>{title}</h1>
       {sub && <div className="sub">{sub}</div>}
     </div>

@@ -11,7 +11,7 @@
 import { EXIDX } from './exercises.js'
 import { modeOf, fmtSec } from './history.js'
 import { uid, todayISO, DAYN, fmtNum, exCount } from './format.js'
-import { t } from './i18n.js'
+import { t, nameFor, getLang, isRTL } from './i18n.js'
 
 const PLAN_FMT = 1
 const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0]   // Mon-first, matching the Plan screen
@@ -164,8 +164,8 @@ function routineHTML(r, unit) {
   const rows = units(r.ex).map(u => {
     const items = u.map(e => {
       const ex = EXIDX[e.id]
-      const name = ex ? ex.n : t('Unknown exercise')
-      const part = ex && ex.bp && ex.bp !== 'cardio' ? `<span class="part">${esc(ex.bp)}</span>` : ''
+      const name = ex ? nameFor(ex) : t('Unknown exercise')
+      const part = ex && ex.bp && ex.bp !== 'cardio' ? `<span class="part">${esc(t(ex.bp))}</span>` : ''
       return `<div class="ex"><div class="ex-n">${esc(name)}${part}</div><div class="ex-s">${esc(scheme(e, unit))}</div></div>`
     }).join('')
     return u.length > 1
@@ -196,7 +196,7 @@ export function planPrintHTML(S, owner) {
     ? routines.map(r => routineHTML(r, unit)).join('')
     : `<p class="none">${esc(t('No routines yet.'))}</p>`
   const sub = [owner, todayISO()].filter(Boolean).map(esc).join(' · ')
-  return `<!doctype html><html><head><meta charset="utf-8">
+  return `<!doctype html><html lang="${getLang()}" dir="${isRTL() ? 'rtl' : 'ltr'}"><head><meta charset="utf-8">
 <title>${esc(t('Weekly Training Plan'))}</title>
 <style>
   @page { margin: 16mm 15mm; }
@@ -231,11 +231,11 @@ export function planPrintHTML(S, owner) {
   .ex { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 6px 0; break-inside: avoid; page-break-inside: avoid; }
   .ex + .ex, .ss + .ex, .ex + .ss { border-top: 1px solid #f2f3f6; }
   .ex-n { text-transform: capitalize; font-weight: 500; }
-  .ex-n .part { text-transform: capitalize; color: #9aa0ae; font-weight: 400; font-size: 12px; margin-left: 8px; }
+  .ex-n .part { text-transform: capitalize; color: #9aa0ae; font-weight: 400; font-size: 12px; margin-inline-start: 8px; }
   .ex-s { color: #3d424e; white-space: nowrap; font-variant-numeric: tabular-nums; }
   .ex.empty, .none { color: #a2a8b6; }
 
-  .ss { break-inside: avoid; page-break-inside: avoid; border-left: 3px solid #cfe08a; padding-left: 12px; margin: 4px 0; }
+  .ss { break-inside: avoid; page-break-inside: avoid; border-inline-start: 3px solid #cfe08a; padding-inline-start: 12px; margin: 4px 0; }
   .ss-tag { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #6a7a3a; font-weight: 700; padding-top: 4px; }
   .ss .ex:first-of-type { padding-top: 2px; }
 

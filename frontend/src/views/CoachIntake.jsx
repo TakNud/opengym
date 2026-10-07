@@ -87,7 +87,7 @@ export default function CoachIntake() {
   return <div className="narrow">
     <div className="hdr">
       <button className="iconbtn" onClick={() => step ? setStep(step - 1) : nav('/coach')} aria-label={t('Back')}><Icon name="chevronLeft" /></button>
-      <div style={{ flex: 1, marginLeft: 10 }}>
+      <div style={{ flex: 1, marginInlineStart: 10 }}>
         <h1>{editing ? t('Coach profile') : t('Your plan')}</h1>
         <div className="sub">{t('Step {0} of {1}', step + 1, STEPS.length)}</div>
       </div>

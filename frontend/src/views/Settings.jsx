@@ -7,7 +7,7 @@ import { effortOf } from '../lib/history.js'
 import { webauthnOK, passkeyLogin, passkeyRegister, IS_ANDROID } from '../lib/api.js'
 import { pushSupported, enablePush, disablePush, sendTestPush } from '../lib/push.js'
 import { wakeLockSupported } from '../lib/wakelock.js'
-import { t, LANGS, INSTR_LANGS } from '../lib/i18n.js'
+import { t, LANGS, INSTR_LANGS, DEFAULT_LANG } from '../lib/i18n.js'
 import { DEMO, REPO } from '../lib/demo.js'
 import { MOBILE, shareExport, syncReminder } from '../lib/mobile.js'
 import { loadStarterPlan, confirmSheet, importFromApp } from '../sheets.jsx'
@@ -72,7 +72,7 @@ export default function Settings() {
   return <div className="narrow">
     <div className="hdr">
       <button className="iconbtn" onClick={() => nav('/home')} aria-label={t('Home')}><Icon name="chevronLeft" /></button>
-      <div style={{ flex: 1, marginLeft: 10 }}><h1>{t('Settings')}</h1></div>
+      <div style={{ flex: 1, marginInlineStart: 10 }}><h1>{t('Settings')}</h1></div>
     </div>
 
     {/* ---------- account (demo and mobile builds have nothing to sign in to) ---------- */}
@@ -105,7 +105,7 @@ export default function Settings() {
     <Section title={t('General')} footer={t('Note: switching units only changes the label — logged numbers are not converted.')}>
       <SelectRow
         icon="globe" iconTint="var(--blue)" title={t('Language')}
-        value={S.lang || 'en'} onChange={v => update(s => { s.lang = v })}
+        value={S.lang || DEFAULT_LANG} onChange={v => update(s => { s.lang = v })}
         options={Object.entries(LANGS).map(([k, name]) => ({
           value: k, label: name,
           subtitle: INSTR_LANGS.includes(k) ? null : t("Exercise instructions aren't available in this language yet — they stay in English."),

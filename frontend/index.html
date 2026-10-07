@@ -13,6 +13,16 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" href="icon-180.png">
+<script>
+// Set the writing direction before first paint so an RTL profile never flashes LTR.
+// Mirrors lib/i18n.js (RTL_LANGS, DEFAULT_LANG); React takes over once it loads.
+try {
+  var l = (JSON.parse(localStorage.getItem('gym_state_v1') || '{}').lang) || '%VITE_DEFAULT_LANG%'
+  if (l.charAt(0) === '%') l = 'en'   // VITE_DEFAULT_LANG not set at build time
+  document.documentElement.lang = l
+  document.documentElement.dir = l === 'he' ? 'rtl' : 'ltr'
+} catch (e) {}
+</script>
 </head>
 <body>
 <div id="root"></div>
