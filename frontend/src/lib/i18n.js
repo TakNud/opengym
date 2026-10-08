@@ -6,12 +6,13 @@
 import { useSyncExternalStore } from 'react'
 
 // UI languages. de/pt have no instruction pack upstream — instructions fall back to English.
+// he's instruction and name packs are translated in-repo (src/instr/he.js, src/names/he.js).
 export const LANGS = {
   en: 'English', de: 'Deutsch', es: 'Español', fr: 'Français', it: 'Italiano',
   pt: 'Português', pl: 'Polski', tr: 'Türkçe', ru: 'Русский', zh: '中文',
   ko: '한국어', hi: 'हिन्दी', he: 'עברית'
 }
-export const INSTR_LANGS = ['en', 'es', 'fr', 'it', 'tr', 'ru', 'zh', 'hi', 'pl', 'ko']
+export const INSTR_LANGS = ['en', 'es', 'fr', 'it', 'tr', 'ru', 'zh', 'hi', 'pl', 'ko', 'he']
 // Right-to-left UI languages: <html dir> flips and logical CSS properties follow.
 export const RTL_LANGS = ['he']
 // Language a fresh profile starts in. Set at build time (VITE_DEFAULT_LANG) so an
